@@ -1,22 +1,23 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Document } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export type DealDocument = Document & Deal
+export type DealDocument = Deal & Document;
 
 @Schema()
 export class Deal {
   @Prop({ required: true })
-  id: number
+  id: number;
 
   @Prop({ required: true })
-  title: string
+  title: string;
 
   @Prop({ required: true })
-  status: string
+  status: string;
 
   @Prop({ required: true })
-  value: number
+  value: number;
 
   @Prop({ required: true })
-  currency: string
+  currency: string;
 }
+
+export const DealSchema = SchemaFactory.createForClass(Deal);

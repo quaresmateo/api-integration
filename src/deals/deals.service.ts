@@ -1,13 +1,18 @@
-import { Body, Injectable } from '@nestjs/common';
-import { DealDocument } from './entities/deal.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Deal, DealDocument } from './entities/deal.entity';
 
 @Injectable()
 export class DealsService {
-  create(body: DealDocument) {
-    return `This action adds a new deal ${body}`;
+  constructor(@InjectModel(Deal.name) private dealModel: Model<DealDocument | any>,) { }
+
+  async create(body: DealDocument): Promise<any> {
+    const createdDeal = new this.dealModel(body);
+    return createdDeal.save();
   }
 
-  findAll() {
+  async findAll(): Promise<any> {
     return `This action returns all deals`;
   }
 }
