@@ -1,12 +1,16 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { BlingService } from 'src/bling/bling.service';
 import { Responses } from 'src/responses/responses.interface';
 import { Deal, DealDocument } from './entities/deal.entity';
 
 @Injectable()
 export class DealsService {
-  constructor(@InjectModel(Deal.name) private dealModel: Model<DealDocument | any>,) { }
+  constructor(
+    @InjectModel(Deal.name) private dealModel: Model<DealDocument | any>,
+    private blingService: BlingService
+  ) { }
 
   async create(body: any): Promise<any> {
     let response: Responses;
@@ -26,6 +30,7 @@ export class DealsService {
       if (deal.status === 'won') {
         const createdDeal = new this.dealModel(deal);
         await createdDeal.save();
+        const pedidoBling = await this.blingService.create(deal);
 
         response = {
           statusCode: HttpStatus.CREATED,
