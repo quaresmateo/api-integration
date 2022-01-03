@@ -48,7 +48,7 @@ PARAMS
 
 A integração foi feita através  do [Webhook do Pipedrive](https://support.pipedrive.com/pt/article/webhooks).
 
-Sempre que uma oportunidade for ganha, o endpoint `POST /deals` será acessada pelo Pipedrive criando de maneira totalmente automatizada um pedido simultaneamente no MongoDB Atlas e nos pedidos do Bling.
+Sempre que uma oportunidade for igual a ganho, o endpoint `POST /deals` será acessada pelo Pipedrive criando de maneira totalmente automatizada um pedido simultaneamente no MongoDB Atlas e nos pedidos do Bling.
 
 
 
