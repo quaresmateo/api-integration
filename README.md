@@ -2,7 +2,6 @@
 
 Esplicação de tudo que foi feito:
 
-
 # Endpoints
 
 ## Criar um pedido no Bling e MongoDB
@@ -44,6 +43,12 @@ PARAMS
 | page | number |
 | limit | number |
 | group_by | string: “date” or “value” |
+
+# Integração
+
+A integração foi feita através  do [Webhook do Pipedrive](https://support.pipedrive.com/pt/article/webhooks).
+
+Sempre que uma oportunidade for ganha, o endpoint `POST /deals` será acessada pelo Pipedrive criando de maneira totalmente automatizada um pedido simultaneamente no MongoDB Atlas e nos pedidos do Bling.
 
 
 
