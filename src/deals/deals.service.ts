@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Res } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BlingService } from 'src/bling/bling.service';
@@ -59,7 +59,30 @@ export class DealsService {
     }
   }
 
-  async findAll(): Promise<any> {
-    return `This action returns all deals`;
+  async findAll(@Res() req: any): Promise<any> {
+    try {
+      let response: Responses;
+
+      const { page = 1, limit = 10, groupBy = 'date' } = req.params;
+
+      const deals = await this.dealModel.find()
+
+      response = {
+        statusCode: HttpStatus.OK,
+        message: 'Deals has been found',
+        data: { deals },
+      };
+
+      return response;
+    }
+    catch (error) {
+      let response: Responses = {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'Deal has not been found',
+        data: { error }
+      };
+
+      return response;
+    }
   }
 }
