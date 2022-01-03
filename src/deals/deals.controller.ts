@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Req } from '@nestjs/common';
 import { Responses } from 'src/responses/responses.interface';
 import { DealsService } from './deals.service';
 
@@ -35,7 +35,25 @@ export class DealsController {
   }
 
   @Get()
-  async findAll() {
-    return this.dealsService.findAll();
+  async findAll(@Req() req: any, @Res() res: any) {
+    try {
+      const response: Responses = await this.dealsService.findAll(req);
+
+      if (response.statusCode === HttpStatus.OK) {
+        return res.status(HttpStatus.OK).json(response);
+      }
+      else if (response.statusCode === HttpStatus.BAD_REQUEST) {
+        return res.status(HttpStatus.BAD_REQUEST).json(response);
+      }
+    }
+    catch (error) {
+      const response: Responses = {
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'Deal has not been found',
+        data: { error }
+      };
+
+      return res.status(HttpStatus.BAD_REQUEST).json(response);
+    }
   }
 }
