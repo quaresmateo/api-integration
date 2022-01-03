@@ -63,9 +63,37 @@ export class DealsService {
     try {
       let response: Responses;
 
-      const { page = 1, limit = 10, groupBy = 'date' } = req.params;
+      const { page = 1, limit = 10, group_by = 'date' } = req.query;
 
-      const deals = await this.dealModel.find()
+      const deals: Deal[] = await this.dealModel.aggregate([
+        {
+          $sort: {
+            [group_by]: -1,
+          },
+        },
+        {
+          $group: {
+            _id: {
+              [group_by]: group_by === 'date' ?
+                { $dateToString: { format: '%Y-%m-%d', date: '$won_time' } }
+                : '$value',
+            },
+            count: { $sum: 1 },
+            deals: { $push: '$$ROOT' },
+          },
+        },
+        {
+          $sort: {
+            _id: -1,
+          },
+        },
+        {
+          $skip: (page - 1) * limit,
+        },
+        {
+          $limit: limit,
+        },
+      ]);
 
       response = {
         statusCode: HttpStatus.OK,
