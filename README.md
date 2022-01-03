@@ -8,6 +8,8 @@ Sempre que uma oportunidade for igual ganho, o endpoint `POST /deals` será aces
 
 # Endpoints
 
+Link para API Online https://link-api-teoian.herokuapp.com/deals
+
 ## Criar um pedido no Bling e MongoDB
 
 URL
