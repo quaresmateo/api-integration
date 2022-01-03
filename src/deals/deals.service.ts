@@ -30,7 +30,7 @@ export class DealsService {
       if (deal.status === 'won') {
         const createdDeal = new this.dealModel(deal);
         await createdDeal.save();
-        const pedidoBling = await this.blingService.create(deal);
+        await this.blingService.create(deal);
 
         response = {
           statusCode: HttpStatus.CREATED,
